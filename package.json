@@ -1,0 +1,38 @@
+{
+  "name": "ecommerce-support-copilot",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/web",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w apps/web",
+    "build": "npm run build -w apps/web",
+    "lint": "npm run lint -w apps/web",
+    "typecheck": "tsc --noEmit -p apps/web && tsc --noEmit -p packages/shared && tsc --noEmit -p packages/evaluation",
+    "test": "vitest run --config vitest.unit.config.ts",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "test:watch": "vitest --config vitest.unit.config.ts",
+    "test:all": "npm run test && npm run test:integration",
+    "db:start": "supabase start --ignore-health-check",
+    "db:stop": "supabase stop",
+    "db:reset": "supabase db reset",
+    "db:status": "supabase status",
+    "worker": "tsx apps/web/src/lib/worker/ingestion-worker.ts",
+    "seed:kb": "tsx apps/web/scripts/ingest-seeded-docs.ts",
+    "eval": "tsx packages/evaluation/src/run.ts",
+    "e2e": "tsx packages/evaluation/src/e2e.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5",
+    "vitest": "^3"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.9"
+  }
+}

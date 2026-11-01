@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+/*
+ * Flat design system (DESIGN.md).
+ * Zero artificial depth: no shadows, no gradients on elements, no blur.
+ * Hierarchy comes from size, color blocking, and typography (Outfit).
+ */
+@theme {
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: #ffffff;
+  --color-foreground: #111827;
+
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-primary-foreground: #ffffff;
+  --color-primary-soft: #eff6ff;
+
+  --color-secondary: #10b981;
+  --color-secondary-hover: #059669;
+  --color-secondary-foreground: #ffffff;
+  --color-secondary-soft: #ecfdf5;
+
+  --color-accent: #f59e0b;
+  --color-accent-hover: #d97706;
+  --color-accent-foreground: #111827;
+  --color-accent-soft: #fffbeb;
+
+  --color-destructive: #ef4444;
+  --color-destructive-hover: #dc2626;
+  --color-destructive-foreground: #ffffff;
+  --color-destructive-soft: #fef2f2;
+
+  --color-muted: #f3f4f6;
+  --color-muted-hover: #e5e7eb;
+  --color-muted-foreground: #6b7280;
+
+  --color-border: #e5e7eb;
+  --color-ink: #111827;
+
+  --radius-md: 6px;
+  --radius-lg: 8px;
+}
+
+@layer base {
+  html {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+  body {
+    @apply text-[15px] leading-relaxed;
+  }
+  h1, h2, h3 {
+    @apply font-bold tracking-tight;
+    letter-spacing: -0.02em;
+  }
+  /* Focus: hard high-contrast outline, no glow. */
+  :focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  /* Poster-style geometric background decoration (low opacity, no blur). */
+  .bg-geo-dots {
+    background-image: radial-gradient(#111827 1px, transparent 1px);
+    background-size: 22px 22px;
+    opacity: 0.05;
+  }
+}
