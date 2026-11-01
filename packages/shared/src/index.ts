@@ -209,3 +209,50 @@ export const PaginatedSchema = z.object({
   total: z.number().int().nonnegative(),
 });
 export type Pagination = z.infer<typeof PaginatedSchema>;
+
+// ---------------------------------------------------------------------------
+// Auth (backend server contract — apps/server /api/v1/auth)
+// ---------------------------------------------------------------------------
+export const LoginRequestSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+});
+export type LoginRequest = z.infer<typeof LoginRequestSchema>;
+
+/** Profile fields the API exposes — role always comes from the profiles table, never the client. */
+export const AuthUserSchema = z.object({
+  id: z.string().uuid(),
+  email: z.string().email(),
+  fullName: z.string().nullable(),
+  role: UserRoleSchema,
+});
+export type AuthUser = z.infer<typeof AuthUserSchema>;
+
+/** Supabase session tokens, camelCased for the API surface. */
+export const AuthSessionSchema = z.object({
+  accessToken: z.string().min(1),
+  refreshToken: z.string().nullable(),
+  tokenType: z.string(),
+  expiresIn: z.number().int().positive(),
+  expiresAt: z.number().nullable(),
+});
+export type AuthSession = z.infer<typeof AuthSessionSchema>;
+
+export const LoginResponseSchema = z.object({
+  session: AuthSessionSchema,
+  user: AuthUserSchema,
+});
+export type LoginResponse = z.infer<typeof LoginResponseSchema>;
+
+/** What requireAuth attaches to the request after verifying the caller. */
+export const AuthContextSchema = z.object({
+  userId: z.string().uuid(),
+  email: z.string().email(),
+  role: UserRoleSchema,
+  /** Present when role is CUSTOMER: the row id in public.customers (pk = profile_id). */
+  customerId: z.string().uuid().optional(),
+});
+export type AuthContext = z.infer<typeof AuthContextSchema>;
+
+export const MeResponseSchema = z.object({ user: AuthContextSchema });
+export type MeResponse = z.infer<typeof MeResponseSchema>;

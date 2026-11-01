@@ -4,13 +4,18 @@
   "private": true,
   "workspaces": [
     "apps/web",
+    "apps/server",
     "packages/*"
   ],
   "scripts": {
     "dev": "npm run dev -w apps/web",
     "build": "npm run build -w apps/web",
     "lint": "npm run lint -w apps/web",
-    "typecheck": "tsc --noEmit -p apps/web && tsc --noEmit -p packages/shared && tsc --noEmit -p packages/evaluation",
+    "dev:server": "npm run dev -w apps/server",
+    "build:server": "npm run build -w apps/server",
+    "typecheck:server": "npm run typecheck -w apps/server",
+    "test:server": "npm run test -w apps/server",
+    "typecheck": "tsc --noEmit -p apps/web && tsc --noEmit -p packages/shared && tsc --noEmit -p packages/evaluation && tsc --noEmit -p apps/server",
     "test": "vitest run --config vitest.unit.config.ts",
     "test:integration": "vitest run --config vitest.integration.config.ts",
     "test:watch": "vitest --config vitest.unit.config.ts",
